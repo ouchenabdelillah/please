@@ -17,6 +17,7 @@ public class RoomDb {
     Connection conn = DataBaseConnection.connectTODB();
     PreparedStatement statement = null;
     ResultSet result = null;
+    private static final String DEBUG_PREFIX = ">>>>>>>>>> ";
 
      public void insertRoom(Room room) {
         try {
@@ -31,7 +32,7 @@ public class RoomDb {
                     + ",'" + room.getRoomClass().getRoomType() + "'"
                     + ")";
 
-            System.out.println(">>>>>>>>>> "+ room.getRoomClass().getRoomType());
+            System.out.println(DEBUG_PREFIX + room.getRoomClass().getRoomType());
             statement = conn.prepareStatement(insertQuery);
 
             statement.execute();
@@ -118,9 +119,9 @@ public class RoomDb {
                     +boolToString(room.isHasPhone())+"', room_class= '"
                     +room.getRoomClass().getRoomType()+"', meal_id = "
                     ;
-                    
 
-            System.out.println(">>>>>>>>>> "+ updateQuery);
+
+             System.out.println(DEBUG_PREFIX + room.getRoomClass().getRoomType());
             statement = conn.prepareStatement(updateQuery);
 
             statement.execute();
@@ -144,7 +145,7 @@ public class RoomDb {
         try {
             String insertRoomTypeQuery = "insert into roomType values('" + roomType.getRoomType() + "'," + roomType.getPricePerDay() + ")";
 
-            System.out.println(">>>>>>>>>> " + insertRoomTypeQuery);
+            System.out.println(DEBUG_PREFIX + room.getRoomClass().getRoomType());
 
             statement = conn.prepareStatement(insertRoomTypeQuery);
 

@@ -2,11 +2,11 @@ package hotel.classes;
 
 import java.util.ArrayList;
 
-import I3.Classes.Booking;
-import I3.Classes.ExtraOrders;
+import hotel.classes.Booking;
+import hotel.classes.ExtraOrders;
 
 /**
- *
+ *w
  * @author Faysal Ahmed
  */
 public class Payment {

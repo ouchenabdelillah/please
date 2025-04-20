@@ -1,6 +1,7 @@
 package hotel.ui;
 
 import hotel.classes.UserInfo;
+import hotel.classes.*;
 import hotel.databaseOperation.CustomerDb;
 import hotel.databaseOperation.DatabaseOperation;
 

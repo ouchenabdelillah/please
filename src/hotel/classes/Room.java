@@ -1,6 +1,5 @@
 package hotel.classes;
 
-
 /**
  *
  * @author Faysal Ahmed

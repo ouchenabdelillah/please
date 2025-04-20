@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataBaseConnection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">hotel.databaseOperation</a> &gt; <span class="el_source">DataBaseConnection.java</span></div><h1>DataBaseConnection.java</h1><pre class="source lang-java linenums">package hotel.databaseOperation;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+
+
+
+
+/**
+ *
+ * @author Faysal Ahmed
+ */
+<span class="nc" id="L20">class DataBaseConnectionTest {</span>
+
+    @Test
+    void testConnectTODB() {
+<span class="nc" id="L24">        Connection conn = DataBaseConnection.connectTODB();</span>
+<span class="nc" id="L25">        assertNotNull(conn, &quot;Database connection should not be null if the database is running.&quot;);</span>
+        try {
+<span class="nc" id="L27">            assertFalse(conn.isClosed(), &quot;Connection should be open&quot;);</span>
+<span class="nc" id="L28">            conn.close(); // cleanup</span>
+<span class="nc" id="L29">        } catch (Exception e) {</span>
+<span class="nc" id="L30">            fail(&quot;Exception during connection test: &quot; + e.getMessage());</span>
+<span class="nc" id="L31">        }</span>
+<span class="nc" id="L32">    }</span>
+}
+
+<span class="nc" id="L35">public class DataBaseConnection {</span>
+
+<span class="nc" id="L37">	static String url= &quot;jdbc:mysql://localhost:3306/hotel?useUnicode=true&quot; + </span>
+			&quot;&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;&quot; + 
+			&quot;serverTimezone=UTC&quot; ;
+    public static Connection connectTODB(){
+        try {
+<span class="nc" id="L42">            Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span>
+<span class="nc" id="L43">            return  DriverManager.getConnection(url,&quot;root&quot;,&quot;root&quot;);</span>
+<span class="nc" id="L44">        } catch (Exception e) {</span>
+        	
+<span class="nc" id="L46">            System.err.println(&quot;Connection error&quot;);</span>
+<span class="nc" id="L47">            e.printStackTrace();</span>
+<span class="nc" id="L48">            return null;</span>
+        }
+      
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

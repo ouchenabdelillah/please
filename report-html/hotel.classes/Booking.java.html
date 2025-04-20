@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Booking.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">hotel.classes</a> &gt; <span class="el_source">Booking.java</span></div><h1>Booking.java</h1><pre class="source lang-java linenums">package hotel.classes;
+
+import java.util.ArrayList;
+import hotel.classes.UserInfo;
+import hotel.classes.Room;
+
+/**
+ *
+ * @author Faysal Ahmed
+ */
+public class Booking {
+    
+       
+    private UserInfo customer;
+    ArrayList&lt;Room&gt; rooms;
+    
+    
+    
+    private int bookingId;
+    private long checkInDateTime;
+    private long checkOutDateTime;
+    private String bookingType;
+    private int person;
+    
+    
+    
+    
+    public Booking()
+<span class="fc" id="L29">    {</span>
+<span class="fc" id="L30">        customer = new UserInfo();</span>
+<span class="fc" id="L31">        rooms = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L32">        bookingId = -1;</span>
+<span class="fc" id="L33">        bookingType = &quot;Reserved&quot;;</span>
+        
+<span class="fc" id="L35">    }</span>
+
+    public int getBookingId() {
+<span class="fc" id="L38">        return bookingId;</span>
+    }
+
+    public void setBookingId(int bookingId) {
+<span class="fc" id="L42">        this.bookingId = bookingId;</span>
+<span class="fc" id="L43">    }</span>
+
+   
+    
+    public String getBookingType() {
+<span class="fc" id="L48">        return bookingType;</span>
+    }
+
+    public void setBookingType(String bookingType) {
+<span class="fc" id="L52">        this.bookingType = bookingType;</span>
+<span class="fc" id="L53">    }</span>
+    
+    
+    
+    
+    public void addRoom(String roomNo)
+    {
+<span class="fc" id="L60">        rooms.add(new Room(roomNo));</span>
+        
+<span class="fc" id="L62">    }</span>
+    
+    public void removeRoom(String roomNo)
+    {
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        for(Room a: rooms)</span>
+        {
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">            if(a.getRoomNo().equals(roomNo))</span>
+            {
+<span class="fc" id="L70">                rooms.remove(a);</span>
+            }
+<span class="fc" id="L72">        }</span>
+<span class="fc" id="L73">    }</span>
+
+    public int getPerson() {
+<span class="fc" id="L76">        return person;</span>
+    }
+
+    public void setPerson(int person) {
+<span class="fc" id="L80">        this.person = person;</span>
+<span class="fc" id="L81">    }</span>
+
+    public ArrayList&lt;Room&gt; getRooms() {
+<span class="fc" id="L84">        return rooms;</span>
+    }
+    
+    public int getRoomsFare()
+    {
+<span class="fc" id="L89">        int total = 0;</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        for(Room room:rooms)</span>
+        {
+<span class="nc" id="L92">            total += room.getRoomClass().getPricePerDay();</span>
+<span class="nc" id="L93">        }</span>
+<span class="nc" id="L94">        return total;</span>
+    }
+
+    public UserInfo getCustomer() {
+<span class="fc" id="L98">        return customer;</span>
+    }
+
+    public void setCustomer(UserInfo customer) {
+<span class="nc" id="L102">        this.customer = customer;</span>
+<span class="nc" id="L103">    }</span>
+
+    
+
+    public void setCheckOutDateTime(int checkOutDateTime) {
+<span class="nc" id="L108">        this.checkOutDateTime = checkOutDateTime;</span>
+<span class="nc" id="L109">    }</span>
+
+    public long getCheckInDateTime() {
+<span class="fc" id="L112">        return checkInDateTime;</span>
+    }
+
+    public void setCheckInDateTime(long checkInDateTime) {
+<span class="fc" id="L116">        this.checkInDateTime = checkInDateTime;</span>
+<span class="fc" id="L117">    }</span>
+
+    public long getCheckOutDateTime() {
+<span class="fc" id="L120">        return checkOutDateTime;</span>
+    }
+
+    public void setCheckOutDateTime(long checkOutDateTime) {
+<span class="fc" id="L124">        this.checkOutDateTime = checkOutDateTime;</span>
+<span class="fc" id="L125">    }</span>
+
+ 
+    
+    
+    
+            
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

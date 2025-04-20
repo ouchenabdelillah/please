@@ -1,6 +1,8 @@
 package hotel.classes;
 
 import java.util.ArrayList;
+import hotel.classes.UserInfo;
+import hotel.classes.Room;
 
 /**
  *

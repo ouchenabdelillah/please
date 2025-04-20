@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Room.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">hotel.classes</a> &gt; <span class="el_source">Room.java</span></div><h1>Room.java</h1><pre class="source lang-java linenums">package hotel.classes;
+
+/**
+ *
+ * @author Faysal Ahmed
+ */
+public class Room {
+    private int roomId;
+    private String roomNo;
+    private int bedNumber;
+    
+    private boolean hasTV;
+    private boolean hasWIFI;
+    private boolean hasGizer;
+    private boolean hasPhone;
+    
+    
+    private RoomFare roomClass;
+    
+    
+    public Room(String room)
+<span class="fc" id="L22">    {</span>
+<span class="fc" id="L23">        roomNo = room;</span>
+<span class="fc" id="L24">    }</span>
+
+    public int getRoomId() {
+<span class="nc" id="L27">        return roomId;</span>
+    }
+
+    public void setRoomId(int roomId) {
+<span class="nc" id="L31">        this.roomId = roomId;</span>
+<span class="nc" id="L32">    }</span>
+
+    public String getRoomNo() {
+<span class="fc" id="L35">        return roomNo;</span>
+    }
+
+    public void setRoomNo(String room) {
+<span class="nc" id="L39">        this.roomNo = room;</span>
+<span class="nc" id="L40">    }</span>
+
+    public int getBedNumber() {
+<span class="nc" id="L43">        return bedNumber;</span>
+    }
+
+    public void setBedNumber(int bedNumber) {
+<span class="nc" id="L47">        this.bedNumber = bedNumber;</span>
+<span class="nc" id="L48">    }</span>
+
+    public boolean isHasTV() {
+<span class="nc" id="L51">        return hasTV;</span>
+    }
+
+    public void setHasTV(boolean hasTV) {
+<span class="nc" id="L55">        this.hasTV = hasTV;</span>
+<span class="nc" id="L56">    }</span>
+
+    public boolean isHasWIFI() {
+<span class="nc" id="L59">        return hasWIFI;</span>
+    }
+
+    public void setHasWIFI(boolean hasWIFI) {
+<span class="nc" id="L63">        this.hasWIFI = hasWIFI;</span>
+<span class="nc" id="L64">    }</span>
+
+    public boolean isHasGizer() {
+<span class="nc" id="L67">        return hasGizer;</span>
+    }
+
+    public void setHasGizer(boolean hasGizer) {
+<span class="nc" id="L71">        this.hasGizer = hasGizer;</span>
+<span class="nc" id="L72">    }</span>
+
+    public boolean isHasPhone() {
+<span class="nc" id="L75">        return hasPhone;</span>
+    }
+
+    public void setHasPhone(boolean hasPhone) {
+<span class="nc" id="L79">        this.hasPhone = hasPhone;</span>
+<span class="nc" id="L80">    }</span>
+
+
+    public RoomFare getRoomClass() {
+<span class="fc" id="L84">        return roomClass;</span>
+    }
+
+    public void setRoomClass(RoomFare roomClass) {
+<span class="nc" id="L88">        this.roomClass = roomClass;</span>
+<span class="nc" id="L89">    }</span>
+
+  
+    
+    
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

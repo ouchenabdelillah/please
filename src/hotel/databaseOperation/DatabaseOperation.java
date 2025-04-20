@@ -4,10 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-
-import I3.DatabaseOperation.DataBaseConnection;
-
 import hotel.classes.UserInfo;
+import java.sql.*;
 
 /**
  *

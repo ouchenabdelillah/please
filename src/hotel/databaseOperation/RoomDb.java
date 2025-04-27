@@ -1,202 +1,106 @@
 package hotel.databaseOperation;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import hotel.classes.Room;
 import hotel.classes.RoomFare;
 
-/**
- * @author Faysal Ahmed
- */
 public class RoomDb {
-    Connection conn = DataBaseConnection.connectTODB();
-    PreparedStatement statement = null;
-    ResultSet result = null;
-    private static final String DEBUG_PREFIX = ">>>>>>>>>> ";
+    private DatabaseHelper dbHelper = new DatabaseHelper();
 
     public void insertRoom(Room room) {
-        try {
-            String insertQuery = "INSERT INTO room (room_no, bed_number, tv, wifi, gizer, phone, room_class, meal_id) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-            statement = conn.prepareStatement(insertQuery);
-            statement.setString(1, room.getRoomNo());
-            statement.setInt(2, room.getBedNumber());
-            statement.setBoolean(3, room.isHasTV());
-            statement.setBoolean(4, room.isHasWIFI());
-            statement.setBoolean(5, room.isHasGizer());
-            statement.setBoolean(6, room.isHasPhone());
-            statement.setString(7, room.getRoomClass().getRoomType());
-            statement.setInt(8, room.getMealId()); // Assuming Room has a getMealId() method
-
-            statement.executeUpdate();
-
+        String insertQuery = "INSERT INTO room (room_no, bed_number, tv, wifi, gizer, phone, room_class, meal_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        if (dbHelper.executeUpdate(insertQuery, new Object[]{
+                room.getRoomNo(),
+                room.getBedNumber(),
+                room.isHasTV(),
+                room.isHasWIFI(),
+                room.isHasGizer(),
+                room.isHasPhone(),
+                room.getRoomClass().getRoomType(),
+                room.getMealId()})) {
             JOptionPane.showMessageDialog(null, "Successfully inserted a new room");
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "\nInsertQuery of Room Class Failed");
-        } finally {
-            flushStatementOnly();
+        } else {
+            JOptionPane.showMessageDialog(null, "Insert Room Failed");
         }
     }
 
     public ResultSet getRooms() {
-        try {
-            String query = "SELECT * FROM room";
-            statement = conn.prepareStatement(query);
-            result = statement.executeQuery();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "\nError returning all room DB operations");
-        }
-
-        return result;
+        return dbHelper.executeQuery("SELECT * FROM room");
     }
 
     public int getNoOfRooms() {
-        int rooms = -1;
+        ResultSet result = dbHelper.executeQuery("SELECT COUNT(room_no) AS noRoom FROM room");
         try {
-            String query = "SELECT COUNT(room_no) AS noRoom FROM room";
-            statement = conn.prepareStatement(query);
-            result = statement.executeQuery();
-            while (result.next()) {
-                rooms = result.getInt("noRoom");
+            if (result.next()) {
+                return result.getInt("noRoom");
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "\nError counting room DB operations");
+            JOptionPane.showMessageDialog(null, ex.toString() + "\nError counting rooms");
         }
-
-        return rooms;
+        return -1;
     }
 
     public ResultSet getAllRoomNames() {
-        try {
-            String query = "SELECT room_no FROM room";
-            statement = conn.prepareStatement(query);
-            result = statement.executeQuery();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "\nError returning all room numbers");
-        }
-
-        return result;
+        return dbHelper.executeQuery("SELECT room_no FROM room");
     }
 
     public void deleteRoom(int roomId) {
-        try {
-            String deleteQuery = "DELETE FROM room WHERE room_id = ?";
-            statement = conn.prepareStatement(deleteQuery);
-            statement.setInt(1, roomId);
-            statement.executeUpdate();
+        String deleteQuery = "DELETE FROM room WHERE room_id = ?";
+        if (dbHelper.executeUpdate(deleteQuery, new Object[]{roomId})) {
             JOptionPane.showMessageDialog(null, "Room deleted successfully");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "\nDelete query failed");
-        } finally {
-            flushStatementOnly();
+        } else {
+            JOptionPane.showMessageDialog(null, "Delete Room Failed");
         }
     }
 
     public void updateRoom(Room room) {
-        try {
-            String updateQuery = "UPDATE room SET room_no = ?, bed_number = ?, tv = ?, wifi = ?, gizer = ?, phone = ?, room_class = ?, meal_id = ? "
-                    + "WHERE room_id = ?";
-
-            statement = conn.prepareStatement(updateQuery);
-            statement.setString(1, room.getRoomNo());
-            statement.setInt(2, room.getBedNumber());
-            statement.setBoolean(3, room.isHasTV());
-            statement.setBoolean(4, room.isHasWIFI());
-            statement.setBoolean(5, room.isHasGizer());
-            statement.setBoolean(6, room.isHasPhone());
-            statement.setString(7, room.getRoomClass().getRoomType());
-            statement.setInt(8, room.getMealId());  // Assuming Room has a getMealId() method
-            statement.setInt(9, room.getRoomId()); // Assuming Room has a getRoomId() method
-
-            statement.executeUpdate();
-
+        String updateQuery = "UPDATE room SET room_no = ?, bed_number = ?, tv = ?, wifi = ?, gizer = ?, phone = ?, room_class = ?, meal_id = ? "
+                + "WHERE room_id = ?";
+        if (dbHelper.executeUpdate(updateQuery, new Object[]{
+                room.getRoomNo(),
+                room.getBedNumber(),
+                room.isHasTV(),
+                room.isHasWIFI(),
+                room.isHasGizer(),
+                room.isHasPhone(),
+                room.getRoomClass().getRoomType(),
+                room.getMealId(),
+                room.getRoomId()})) {
             JOptionPane.showMessageDialog(null, "Successfully updated room");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "\nUpdate query failed");
-        } finally {
-            flushStatementOnly();
+        } else {
+            JOptionPane.showMessageDialog(null, "Update Room Failed");
         }
     }
 
-    public String boolToString(boolean value) {
-        return value ? "true" : "false";
-    }
-
     public void insertRoomType(RoomFare roomType) {
-        try {
-            String insertRoomTypeQuery = "INSERT INTO roomType (type, price) VALUES (?, ?)";
-
-            statement = conn.prepareStatement(insertRoomTypeQuery);
-            statement.setString(1, roomType.getRoomType());
-            statement.setDouble(2, roomType.getPricePerDay());
-
-            statement.executeUpdate();
-
+        String insertQuery = "INSERT INTO roomType (type, price) VALUES (?, ?)";
+        if (dbHelper.executeUpdate(insertQuery, new Object[]{
+                roomType.getRoomType(),
+                roomType.getPricePerDay()})) {
             JOptionPane.showMessageDialog(null, "Successfully inserted a new room type");
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "\nInsert query failed");
-        } finally {
-            flushStatementOnly();
+        } else {
+            JOptionPane.showMessageDialog(null, "Insert Room Type Failed");
         }
     }
 
     public ResultSet getRoomType() {
-        try {
-            String query = "SELECT * FROM roomType";
-            statement = conn.prepareStatement(query);
-            result = statement.executeQuery();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "\nError returning room types from DB");
-        }
-
-        return result;
+        return dbHelper.executeQuery("SELECT * FROM roomType");
     }
 
     public void updateRoomType(RoomFare roomType) {
-        try {
-            String updateRoomTypeQuery = "UPDATE roomType SET price = ? WHERE type = ?";
-
-            statement = conn.prepareStatement(updateRoomTypeQuery);
-            statement.setDouble(1, roomType.getPricePerDay());
-            statement.setString(2, roomType.getRoomType());
-
-            statement.executeUpdate();
-
+        String updateQuery = "UPDATE roomType SET price = ? WHERE type = ?";
+        if (dbHelper.executeUpdate(updateQuery, new Object[]{
+                roomType.getPricePerDay(),
+                roomType.getRoomType()})) {
             JOptionPane.showMessageDialog(null, "Successfully updated room type");
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "\nUpdate query failed");
-        } finally {
-            flushStatementOnly();
+        } else {
+            JOptionPane.showMessageDialog(null, "Update Room Type Failed");
         }
     }
 
-    public void flushAll() {
-        try {
-            if (statement != null) {
-                statement.close();
-            }
-            if (result != null) {
-                result.close();
-            }
-        } catch (SQLException ex) {
-            System.err.print(ex.toString() + " >> Closing DB resources");
-        }
-    }
-
-    private void flushStatementOnly() {
-        try {
-            if (statement != null) {
-                statement.close();
-            }
-        } catch (SQLException ex) {
-            System.err.print(ex.toString() + " >> Closing DB resources");
-        }
+    public void flushAll(PreparedStatement statement, ResultSet result) {
+        dbHelper.flushAll(statement, result);
     }
 }

@@ -43,8 +43,8 @@ public class ItemPanel extends javax.swing.JDialog {
         initComponents();
         this.getContentPane().setBackground(new Color(241,241,242));
         populateFoodTable();
-     
-       
+
+
     }
 
     private void itemObjectCreation() {

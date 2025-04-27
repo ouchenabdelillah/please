@@ -1,4 +1,4 @@
-sonar-project.properties
+.sonar-project.properties
 # Ignore Maven or Gradle build directories
 /target/
 /build/

@@ -1,1 +1,32 @@
 sonar-project.properties
+# Ignore Maven or Gradle build directories
+/target/
+/build/
+
+# Ignore compiled class files
+*.class
+
+# Ignore logs
+*.log
+
+# Ignore system files on macOS and Windows
+.DS_Store
+Thumbs.db
+
+# Ignore IntelliJ IDEA project files
+.idea/
+
+# Ignore Eclipse project files
+/.project
+/.classpath
+/.settings/
+
+# Ignore NetBeans project files
+/nbproject/
+
+# Ignore JAR files (you may want to ignore them if you don't want them versioned)
+*.jar
+
+# Ignore dependency directories (Maven, Gradle)
+/.mvn/
+/.gradle/

@@ -1,0 +1,24 @@
+<component name="libraryTable">
+  <library name="jacocoagent">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jacocoagent.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jacocoant.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jacococli.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jcalendar-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/joda-time-2.8.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-platform-console-standalone-1.9.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.jacoco.agent-0.8.13.202504020838.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.jacoco.ant-0.8.13.202504020838.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.jacoco.core-0.8.13.202504020838.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.jacoco.report-0.8.13.202504020838.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sqlite-jdbc-3.8.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/swingx-all-1.6.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rs2xml.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/sqlite-jdbc-3.8.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rs2xml.jar!/src" />
+    </SOURCES>
+  </library>
+</component>

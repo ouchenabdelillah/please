@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FoodDb.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">hotel.databaseOperation</a> &gt; <span class="el_source">FoodDb.java</span></div><h1>FoodDb.java</h1><pre class="source lang-java linenums">package hotel.databaseOperation;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
+import hotel.classes.Food;
+
+/**
+ *
+ * @author Faysal Ahmed
+ */
+<span class="nc" id="L15">public class FoodDb {</span>
+    
+<span class="nc" id="L17">    Connection conn = DataBaseConnection.connectTODB();</span>
+<span class="nc" id="L18">    PreparedStatement statement = null;</span>
+<span class="nc" id="L19">    ResultSet result = null;</span>
+    
+     public void insertFood(Food food) {
+        try {
+<span class="nc" id="L23">            String insertFood = &quot;insert into food('name','price') values('&quot; + food.getName() + &quot;',&quot; + food.getPrice() + &quot;)&quot;;</span>
+
+<span class="nc" id="L25">            statement = conn.prepareStatement(insertFood);</span>
+
+<span class="nc" id="L27">            statement.execute();</span>
+
+<span class="nc" id="L29">            JOptionPane.showMessageDialog(null, &quot;successfully inserted a new Food Type&quot;);</span>
+
+<span class="nc" id="L31">        } catch (SQLException ex) {</span>
+<span class="nc" id="L32">            JOptionPane.showMessageDialog(null, ex.toString() + &quot;\n&quot; + &quot;InsertQuery of Food Failed&quot;);</span>
+        }
+        finally
+        {
+<span class="nc" id="L36">            flushStatmentOnly();</span>
+        }
+<span class="nc" id="L38">    }</span>
+
+    public ResultSet getFoods() {
+        try {
+<span class="nc" id="L42">            String query = &quot;select * from food&quot;;</span>
+<span class="nc" id="L43">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L44">            result = statement.executeQuery();</span>
+<span class="nc" id="L45">        } catch (SQLException ex) {</span>
+<span class="nc" id="L46">            JOptionPane.showMessageDialog(null, ex.toString() + &quot;\n error coming from returning all food DB Operation&quot;);</span>
+<span class="nc" id="L47">        }</span>
+        
+
+<span class="nc" id="L50">        return result;</span>
+    }
+
+    public void updateFood(Food food) {
+        try {
+<span class="nc" id="L55">            String updateFood = &quot;update food set name= '&quot; + food.getName() + &quot;', price= &quot; + food.getPrice() + &quot; where food_id = &quot; + food.getFoodId();</span>
+
+<span class="nc" id="L57">            statement = conn.prepareStatement(updateFood);</span>
+
+<span class="nc" id="L59">            statement.execute();</span>
+
+<span class="nc" id="L61">            JOptionPane.showMessageDialog(null, &quot;successfully updateFood &quot;);</span>
+
+<span class="nc" id="L63">        } catch (SQLException ex) {</span>
+<span class="nc" id="L64">            JOptionPane.showMessageDialog(null, ex.toString() + &quot;\n&quot; + &quot;updateFood of Food Failed&quot;);</span>
+        }
+        finally
+        {
+<span class="nc" id="L68">            flushStatmentOnly();</span>
+        }
+<span class="nc" id="L70">    }</span>
+
+    public void deleteFood(int foodId) {
+        try {
+<span class="nc" id="L74">            String deleteQuery = &quot;delete from food where food_id=&quot; + foodId;</span>
+<span class="nc" id="L75">            statement = conn.prepareStatement(deleteQuery);</span>
+<span class="nc" id="L76">            statement.execute();</span>
+<span class="nc" id="L77">            JOptionPane.showMessageDialog(null, &quot;Deleted food&quot;);</span>
+<span class="nc" id="L78">        } catch (SQLException ex) {</span>
+<span class="nc" id="L79">            JOptionPane.showMessageDialog(null, ex.toString() + &quot;\n&quot; + &quot;Delete query FOod Failed&quot;);</span>
+        }
+        finally
+        {
+<span class="nc" id="L83">            flushStatmentOnly();</span>
+        }
+
+<span class="nc" id="L86">    }</span>
+    
+    public void flushAll()
+    {
+        {
+                        try
+                        {
+<span class="nc" id="L93">                            statement.close();</span>
+<span class="nc" id="L94">                            result.close();</span>
+                        }
+<span class="nc" id="L96">                        catch(SQLException ex)</span>
+<span class="nc" id="L97">                        {System.err.print(ex.toString()+&quot; &gt;&gt; CLOSING DB&quot;);}</span>
+                    }
+<span class="nc" id="L99">    }</span>
+    
+    private void flushStatmentOnly()
+    {
+        {
+                        try
+                        {
+<span class="nc" id="L106">                            statement.close();</span>
+                        }
+<span class="nc" id="L108">                        catch(SQLException ex)</span>
+<span class="nc" id="L109">                        {System.err.print(ex.toString()+&quot; &gt;&gt; CLOSING DB&quot;);}</span>
+                    }
+<span class="nc" id="L111">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -145,7 +145,7 @@ public class RoomDb {
         try {
             String insertRoomTypeQuery = "insert into roomType values('" + roomType.getRoomType() + "'," + roomType.getPricePerDay() + ")";
 
-            System.out.println(DEBUG_PREFIX + room.getRoomClass().getRoomType());
+            System.out.println(DEBUG_PREFIX + roomType.getRoomType());
 
             statement = conn.prepareStatement(insertRoomTypeQuery);
 

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookingDb.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">hotel.databaseOperation</a> &gt; <span class="el_source">BookingDb.java</span></div><h1>BookingDb.java</h1><pre class="source lang-java linenums">package hotel.databaseOperation;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
+import hotel.classes.Booking;
+import hotel.classes.Order;
+
+public class BookingDb {
+
+    Connection conn;
+<span class="nc" id="L15">    PreparedStatement statement = null;</span>
+<span class="nc" id="L16">    ResultSet result = null;</span>
+
+<span class="nc" id="L18">    public BookingDb() {</span>
+<span class="nc" id="L19">        conn = DataBaseConnection.connectTODB();</span>
+<span class="nc" id="L20">    }</span>
+
+    public void insertBooking(Booking booking) {
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        for (int i = 0; i &lt; booking.getRooms().size(); i++) {</span>
+            try {
+<span class="nc" id="L25">                String insertQuery = &quot;INSERT INTO booking &quot;</span>
+                        + &quot;(customer_id, booking_room, guests, check_in, check_out, booking_type, has_checked_out) &quot;
+                        + &quot;VALUES (?, ?, ?, ?, ?, ?, ?)&quot;;
+
+<span class="nc" id="L29">                statement = conn.prepareStatement(insertQuery);</span>
+<span class="nc" id="L30">                statement.setInt(1, booking.getCustomer().getCustomerId());</span>
+<span class="nc" id="L31">                statement.setString(2, booking.getRooms().get(i).getRoomNo());</span>
+<span class="nc" id="L32">                statement.setInt(3, booking.getPerson());</span>
+<span class="nc" id="L33">                statement.setLong(4, booking.getCheckInDateTime());</span>
+<span class="nc" id="L34">                statement.setLong(5, booking.getCheckOutDateTime());</span>
+<span class="nc" id="L35">                statement.setString(6, booking.getBookingType());</span>
+<span class="nc" id="L36">                statement.setInt(7, 0); // has_checked_out</span>
+
+<span class="nc" id="L38">                statement.execute();</span>
+<span class="nc" id="L39">                JOptionPane.showMessageDialog(null, &quot;Successfully inserted new Booking&quot;);</span>
+
+<span class="nc" id="L41">            } catch (SQLException ex) {</span>
+<span class="nc" id="L42">                JOptionPane.showMessageDialog(null, ex.toString() + &quot;\nInsert booking failed.&quot;);</span>
+            } finally {
+<span class="nc" id="L44">                flushStatementOnly();</span>
+            }
+        }
+<span class="nc" id="L47">    }</span>
+
+    public ResultSet getBookingInformation() {
+        try {
+<span class="nc" id="L51">            String query = &quot;SELECT * FROM booking&quot;;</span>
+<span class="nc" id="L52">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L53">            result = statement.executeQuery();</span>
+<span class="nc" id="L54">        } catch (SQLException ex) {</span>
+<span class="nc" id="L55">            JOptionPane.showMessageDialog(null, ex.toString() + &quot;\nError fetching booking information.&quot;);</span>
+<span class="nc" id="L56">        }</span>
+<span class="nc" id="L57">        return result;</span>
+    }
+
+    public ResultSet getABooking(int bookingId) {
+        try {
+<span class="nc" id="L62">            String query = &quot;SELECT * FROM booking WHERE booking_id = ?&quot;;</span>
+<span class="nc" id="L63">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L64">            statement.setInt(1, bookingId);</span>
+<span class="nc" id="L65">            result = statement.executeQuery();</span>
+<span class="nc" id="L66">        } catch (SQLException ex) {</span>
+<span class="nc" id="L67">            JOptionPane.showMessageDialog(null, ex.toString() + &quot;\nError fetching single booking.&quot;);</span>
+<span class="nc" id="L68">        }</span>
+<span class="nc" id="L69">        return result;</span>
+    }
+
+    public ResultSet bookingsReadyForOrder(String roomName) {
+        try {
+<span class="nc" id="L74">            String query = &quot;SELECT booking_id, booking_room, name FROM booking &quot;</span>
+                    + &quot;JOIN userInfo ON booking.customer_id = userInfo.user_id &quot;
+                    + &quot;WHERE booking_room LIKE ? AND has_checked_out = 0 &quot;
+                    + &quot;ORDER BY booking_id DESC&quot;;
+
+<span class="nc" id="L79">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L80">            statement.setString(1, &quot;%&quot; + roomName + &quot;%&quot;);</span>
+<span class="nc" id="L81">            result = statement.executeQuery();</span>
+
+<span class="nc" id="L83">        } catch (SQLException ex) {</span>
+<span class="nc" id="L84">            JOptionPane.showMessageDialog(null, ex.toString() + &quot;\nError in bookingsReadyForOrder.&quot;);</span>
+<span class="nc" id="L85">        }</span>
+<span class="nc" id="L86">        return result;</span>
+    }
+
+    public void updateCheckOut(int bookingId, long checkOutTime) {
+        try {
+<span class="nc" id="L91">            String updateQuery = &quot;UPDATE booking SET has_checked_out = 1, check_out = ? WHERE booking_id = ?&quot;;</span>
+<span class="nc" id="L92">            statement = conn.prepareStatement(updateQuery);</span>
+<span class="nc" id="L93">            statement.setLong(1, checkOutTime);</span>
+<span class="nc" id="L94">            statement.setInt(2, bookingId);</span>
+<span class="nc" id="L95">            statement.execute();</span>
+
+<span class="nc" id="L97">            JOptionPane.showMessageDialog(null, &quot;Successfully updated check-out.&quot;);</span>
+
+<span class="nc" id="L99">        } catch (SQLException ex) {</span>
+<span class="nc" id="L100">            JOptionPane.showMessageDialog(null, ex.toString() + &quot;\nCheck-out update failed.&quot;);</span>
+        } finally {
+<span class="nc" id="L102">            flushStatementOnly();</span>
+        }
+<span class="nc" id="L104">    }</span>
+
+    public int getRoomPrice(int bookingId) {
+<span class="nc" id="L107">        int price = -1;</span>
+        try {
+<span class="nc" id="L109">            String query = &quot;SELECT price FROM booking &quot;</span>
+                    + &quot;JOIN room ON booking_room = room_no &quot;
+                    + &quot;JOIN roomType ON type = room_class &quot;
+                    + &quot;WHERE booking_id = ?&quot;;
+<span class="nc" id="L113">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L114">            statement.setInt(1, bookingId);</span>
+<span class="nc" id="L115">            result = statement.executeQuery();</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            if (result.next()) {</span>
+<span class="nc" id="L117">                price = result.getInt(&quot;price&quot;);</span>
+            }
+<span class="nc" id="L119">            flushAll();</span>
+
+<span class="nc" id="L121">        } catch (SQLException ex) {</span>
+<span class="nc" id="L122">            JOptionPane.showMessageDialog(null, ex.toString() + &quot;\nError getting room price.&quot;);</span>
+<span class="nc" id="L123">        }</span>
+
+<span class="nc" id="L125">        return price;</span>
+    }
+
+    public void insertOrder(Order order) {
+        try {
+<span class="nc" id="L130">            String insertOrder = &quot;INSERT INTO orderItem &quot;</span>
+                    + &quot;(booking_id, item_food, price, quantity, total) &quot;
+                    + &quot;VALUES (?, ?, ?, ?, ?)&quot;;
+
+<span class="nc" id="L134">            statement = conn.prepareStatement(insertOrder);</span>
+<span class="nc" id="L135">            statement.setInt(1, order.getBookingId());</span>
+<span class="nc" id="L136">            statement.setString(2, order.getFoodItem());</span>
+<span class="nc" id="L137">            statement.setDouble(3, order.getPrice());</span>
+<span class="nc" id="L138">            statement.setInt(4, order.getQuantity());</span>
+<span class="nc" id="L139">            statement.setDouble(5, order.getTotal());</span>
+
+<span class="nc" id="L141">            statement.execute();</span>
+<span class="nc" id="L142">            JOptionPane.showMessageDialog(null, &quot;Successfully inserted a new Order&quot;);</span>
+
+<span class="nc" id="L144">        } catch (SQLException ex) {</span>
+<span class="nc" id="L145">            JOptionPane.showMessageDialog(null, ex.toString() + &quot;\nOrder insertion failed.&quot;);</span>
+        } finally {
+<span class="nc" id="L147">            flushStatementOnly();</span>
+        }
+<span class="nc" id="L149">    }</span>
+
+    public ResultSet getAllPaymentInfo(int bookingId) {
+        try {
+<span class="nc" id="L153">            String query = &quot;SELECT * FROM orderItem WHERE booking_id = ?&quot;;</span>
+<span class="nc" id="L154">            statement = conn.prepareStatement(query);</span>
+<span class="nc" id="L155">            statement.setInt(1, bookingId);</span>
+<span class="nc" id="L156">            result = statement.executeQuery();</span>
+
+<span class="nc" id="L158">        } catch (SQLException ex) {</span>
+<span class="nc" id="L159">            JOptionPane.showMessageDialog(null, ex.toString() + &quot;\nError getting payment info.&quot;);</span>
+<span class="nc" id="L160">        }</span>
+<span class="nc" id="L161">        return result;</span>
+    }
+
+    public void flushAll() {
+        try {
+<span class="nc bnc" id="L166" title="All 2 branches missed.">            if (statement != null) statement.close();</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">            if (result != null) result.close();</span>
+<span class="nc" id="L168">        } catch (SQLException ex) {</span>
+<span class="nc" id="L169">            System.err.print(ex.toString() + &quot; &gt;&gt; Error closing DB resources&quot;);</span>
+<span class="nc" id="L170">        }</span>
+<span class="nc" id="L171">    }</span>
+
+    public void flushStatementOnly() {
+        try {
+<span class="nc bnc" id="L175" title="All 2 branches missed.">            if (statement != null) statement.close();</span>
+<span class="nc" id="L176">        } catch (SQLException ex) {</span>
+<span class="nc" id="L177">            System.err.print(ex.toString() + &quot; &gt;&gt; Error closing statement&quot;);</span>
+<span class="nc" id="L178">        }</span>
+<span class="nc" id="L179">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

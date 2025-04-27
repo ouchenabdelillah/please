@@ -33,9 +33,9 @@ public class ItemPanel extends javax.swing.JDialog {
     /**
      * Creates new form FoodPanel
      */
-    Item  item;
-    ResultSet result;
-    ItemDb db = new ItemDb();
+    Item   transient item;
+    ResultSet  transient result;
+    ItemDb transient db = new ItemDb();
     Vector comboItems = new Vector();
 
     public ItemPanel(java.awt.Frame parent, boolean modal) {

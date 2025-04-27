@@ -36,10 +36,10 @@ public class OrderPanel extends javax.swing.JDialog {
      */
     
     Vector<String> bookingList = new Vector();
-    BookingDb db = new BookingDb();
-    ResultSet result;
-    FoodDb foodDb = new FoodDb();
-    ItemDb itemDb = new ItemDb();
+    BookingDb transient db = new BookingDb();
+    ResultSet transient result;
+    FoodDb transient foodDb = new FoodDb();
+    ItemDb transient itemDb = new ItemDb();
     public OrderPanel(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();

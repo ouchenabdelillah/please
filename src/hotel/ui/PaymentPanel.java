@@ -34,10 +34,10 @@ public class PaymentPanel extends javax.swing.JDialog {
     /**
      * Creates new form PaymentPanel
      */
-    BookingDb bookingdB = new BookingDb();
+    BookingDb  transient bookingdB = new BookingDb();
     Vector<String> bookingList = new Vector();
     int bookingId = -1;
-    ResultSet result;
+    ResultSet transient result;
 
     public PaymentPanel(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

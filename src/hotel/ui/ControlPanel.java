@@ -41,13 +41,14 @@ public class ControlPanel extends javax.swing.JFrame {
      * Creates new form ControlPanel
      */
     Vector<String> customerList = new Vector();
-    DatabaseOperation db = new DatabaseOperation();
-    CustomerDb customerdb = new CustomerDb();
+    DatabaseOperation  transient db = new DatabaseOperation();
+    CustomerDb transient customerdb = new CustomerDb();
     Booking booking;
-    BookingDb bookingdb = new BookingDb();
+    BookingDb transient bookingdb = new BookingDb();
     boolean existingCustomer = false;
-    UserInfo user;
-    ResultSet result;
+    UserInfo  transient user;
+    ResultSet transient result;
+
 
     public ControlPanel() {
         
@@ -569,7 +570,7 @@ public class ControlPanel extends javax.swing.JFrame {
     }
 
     private void createNewCustomer() {
-        user = new UserInfo();
+        transient user = new UserInfo();
 
         user.setName(tfName.getText());
         user.setAddress(tfAddress.getText());

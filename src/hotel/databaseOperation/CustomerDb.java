@@ -52,33 +52,25 @@ public class CustomerDb {
         
         
     }
-    
+
     public void updateCustomer(UserInfo user) {
-        try {
-            String updateQuery = "UPDATE userInfo SET name = ?, address = ?, phone = ?, type = ? WHERE user_id = ?";
-            PreparedStatement statement = conn.prepareStatement(updateQuery);
+        String updateQuery = "UPDATE userInfo SET name = ?, address = ?, phone = ?, type = ? WHERE user_id = ?";
+
+        try (PreparedStatement statement = conn.prepareStatement(updateQuery)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getAddress());
             statement.setString(3, user.getPhoneNo());
             statement.setString(4, user.getType());
             statement.setInt(5, user.getCustomerId()); // assuming it's an int
 
+            statement.executeUpdate();
 
-            statement = conn.prepareStatement(updateQuery);
-
-            statement.execute();
-
-            JOptionPane.showMessageDialog(null, "successfully updated new Customer");
+            JOptionPane.showMessageDialog(null, "Successfully updated customer");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.toString() + "\n" + "Update query Failed");
+            JOptionPane.showMessageDialog(null, ex.toString() + "\n" + "Update query failed");
         }
-        
-        finally
-        {
-            flushStatementOnly();
-        }
-
     }
+
 
     public void deleteCustomer(int userId) throws SQLException {
         try {

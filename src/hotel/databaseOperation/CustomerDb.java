@@ -28,14 +28,13 @@ public class CustomerDb {
     }
       public void insertCustomer(UserInfo user)  {
         try {
-            String insertQuery = "insert into userInfo"
-                    + "('" + "name" + "'," + "'" + "address" + "','" + "phone" + "','" + "type" + "')"
-                    + " values('"
-                    + user.getName()
-                    + "','" + user.getAddress() + "'"
-                    + ",'" + user.getPhoneNo() + "'"
-                    + ",'" + user.getType() + "'"
-                    + ")";
+            String insertQuery = "INSERT INTO userInfo (name, address, phone, type) VALUES (?, ?, ?, ?)";
+            statement = conn.prepareStatement(insertQuery);
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getAddress());
+            statement.setString(3, user.getPhoneNo());
+            statement.setString(4, user.getType());
+
 
             statement = conn.prepareStatement(insertQuery);
 
@@ -56,14 +55,15 @@ public class CustomerDb {
     
     public void updateCustomer(UserInfo user) {
         try {
-            String updateQuery = "update userInfo set name = '"
-                    + user.getName() + "',"
-                    + "address = '" + user.getAddress() + "',"
-                    + "phone = '" + user.getPhoneNo() + "',"
-                    + "type = '" + user.getType() + "' where user_id= "
-                    + user.getCustomerId();
+            String updateQuery = "UPDATE userInfo SET name = ?, address = ?, phone = ?, type = ? WHERE user_id = ?";
+            PreparedStatement statement = conn.prepareStatement(updateQuery);
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getAddress());
+            statement.setString(3, user.getPhoneNo());
+            statement.setString(4, user.getType());
+            statement.setInt(5, user.getCustomerId()); // assuming it's an int
 
-           
+
             statement = conn.prepareStatement(updateQuery);
 
             statement.execute();
@@ -82,7 +82,7 @@ public class CustomerDb {
 
     public void deleteCustomer(int userId) throws SQLException {
         try {
-            String deleteQuery = "delete from userInfo where user_id=" + userId;
+            String deleteQuery = "DELETE FROM userInfo WHERE user_id = ?";
             statement = conn.prepareStatement(deleteQuery);
             statement.execute();
             JOptionPane.showMessageDialog(null, "Deleted user");

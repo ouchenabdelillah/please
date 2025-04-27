@@ -8,47 +8,42 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-
-
-
-
 /**
  *
  * @author Faysal Ahmed
  */
-<span class="nc" id="L20">class DataBaseConnectionTest {</span>
+class DataBaseConnectionTest {
 
     @Test
     void testConnectTODB() {
-<span class="nc" id="L24">        Connection conn = DataBaseConnection.connectTODB();</span>
-<span class="nc" id="L25">        assertNotNull(conn, &quot;Database connection should not be null if the database is running.&quot;);</span>
+        Connection conn = DataBaseConnection.connectTODB();
+<span class="nc" id="L20">        assertNotNull(conn, &quot;Database connection should not be null if the database is running.&quot;);</span>
         try {
-<span class="nc" id="L27">            assertFalse(conn.isClosed(), &quot;Connection should be open&quot;);</span>
-<span class="nc" id="L28">            conn.close(); // cleanup</span>
-<span class="nc" id="L29">        } catch (Exception e) {</span>
-<span class="nc" id="L30">            fail(&quot;Exception during connection test: &quot; + e.getMessage());</span>
-<span class="nc" id="L31">        }</span>
-<span class="nc" id="L32">    }</span>
-}
-
-<span class="nc" id="L35">public class DataBaseConnection {</span>
-
-<span class="nc" id="L37">	static String url= &quot;jdbc:mysql://localhost:3306/hotel?useUnicode=true&quot; + </span>
+            assertFalse(conn.isClosed(), &quot;Connection should be open&quot;);
+            conn.close(); // cleanup
+<span class="nc" id="L24">        } catch (Exception e) {</span>
+<span class="nc" id="L25">            fail(&quot;Exception during connection test: &quot; + e.getMessage());</span>
+        }
+<span class="nc" id="L27">    }</span>
+<span class="nc" id="L28">}</span>
+<span class="nc" id="L29"></span>
+<span class="nc" id="L30">public class DataBaseConnection {</span>
+<span class="nc" id="L31"></span>
+<span class="nc" id="L32">	static String url= &quot;jdbc:mysql://localhost:3306/hotel?useUnicode=true&quot; + </span>
 			&quot;&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;&quot; + 
 			&quot;serverTimezone=UTC&quot; ;
-    public static Connection connectTODB(){
+<span class="nc" id="L35">    public static Connection connectTODB(){</span>
         try {
-<span class="nc" id="L42">            Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span>
-<span class="nc" id="L43">            return  DriverManager.getConnection(url,&quot;root&quot;,&quot;root&quot;);</span>
-<span class="nc" id="L44">        } catch (Exception e) {</span>
+<span class="nc" id="L37">            Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span>
+            return  DriverManager.getConnection(url,&quot;root&quot;,&quot;root&quot;);
+        } catch (Exception e) {
         	
-<span class="nc" id="L46">            System.err.println(&quot;Connection error&quot;);</span>
-<span class="nc" id="L47">            e.printStackTrace();</span>
-<span class="nc" id="L48">            return null;</span>
-        }
+            System.err.println(&quot;Connection error&quot;);
+<span class="nc" id="L42">            e.printStackTrace();</span>
+<span class="nc" id="L43">            return null;</span>
+<span class="nc" id="L44">        }</span>
       
-    }
-    
-}
+<span class="nc" id="L46">    }</span>
+<span class="nc" id="L47">    </span>
+<span class="nc" id="L48">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -1,4 +1,18 @@
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import hotel.classes.Booking;
+import hotel.databaseOperation.db.BookingDb;
+import hotel.databaseOperation.db.CustomerDb;
+import hotel.databaseOperation.db.DatabaseOperation;
+import hotel.classes.UserInfo;
+import hotel.ui.ControlPanel;
+
+import javax.swing.text.JTextComponent;
+import javax.swing.DefaultListModel;
+
+import static org.mockito.Mockito.*; // for mock, when, verify, any
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
